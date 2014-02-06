@@ -754,4 +754,14 @@ public class IndentationCheckTest extends BaseCheckTestSupport
         verify(checkConfig, getPath("indentation/InputValidTryResourcesIndent.java"),
                expected);
     }
+
+    @Test
+    public void testEmptyDefaultSwitchInsideLabel() throws Exception
+    {
+        final DefaultConfiguration checkConfig =
+            createCheckConfig(IndentationCheck.class);
+        final String[] expected = {};
+        verify(checkConfig, getPath("indentation/InputEmptyDefaultSwitchInsideLabel.java"),
+               expected);
+    }
 }
