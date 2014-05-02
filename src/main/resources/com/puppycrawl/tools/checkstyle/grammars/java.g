@@ -45,7 +45,7 @@ tokens {
 	INSTANCE_INIT; STATIC_INIT; TYPE; CLASS_DEF; INTERFACE_DEF;
 	PACKAGE_DEF; ARRAY_DECLARATOR; EXTENDS_CLAUSE; IMPLEMENTS_CLAUSE;
 	PARAMETERS; PARAMETER_DEF; LABELED_STAT; TYPECAST; INDEX_OP;
-	POST_INC; POST_DEC; METHOD_CALL; EXPR; ARRAY_INIT;
+	POST_INC; POST_DEC; METHOD_CALL; METHOD_REF; EXPR; ARRAY_INIT;
 	IMPORT; UNARY_MINUS; UNARY_PLUS; CASE_GROUP; ELIST; FOR_INIT; FOR_CONDITION;
 	FOR_ITERATOR; EMPTY_STAT; FINAL="final"; ABSTRACT="abstract";
 	STRICTFP="strictfp"; SUPER_CTOR_CALL; CTOR_CALL;
@@ -63,7 +63,7 @@ tokens {
     LITERAL_class="class";LITERAL_extends="extends";
     LITERAL_interface="interface";LCURLY;RCURLY;COMMA;
     LITERAL_implements="implements";LPAREN;RPAREN;LITERAL_this="this";
-    LITERAL_super="super";ASSIGN;LITERAL_throws="throws";COLON;
+    LITERAL_super="super";ASSIGN;LITERAL_throws="throws";COLON;DOUBLE_COLON;
     LITERAL_if="if";LITERAL_while="while";LITERAL_do="do";
     LITERAL_break="break";LITERAL_continue="continue";LITERAL_return="return";
     LITERAL_switch="switch";LITERAL_throw="throw";LITERAL_for="for";
@@ -1362,6 +1362,16 @@ postfixExpression
 			| "class"
 			| newExpression
 			)
+
+            //Java 8 method references. For example: List<Integer> numbers = Arrays.asList(1,2,3,4,5,6); numbers.forEach(System.out::println);
+        |   
+            dc:DOUBLE_COLON^ {#dc.setType(METHOD_REF);}
+            (
+                (typeArguments[false])?
+                    (IDENT
+                | LITERAL_new)
+            )
+
 			// the above line needs a semantic check to make sure "class"
 			// is the _last_ qualifier.
 
@@ -1395,7 +1405,7 @@ postfixExpression
 
 // the basic element of an expression
 primaryExpression
-	:	IDENT
+	:   IDENT (typeParameters)? //Now it causes huge non-determinism, but no failed test. Need check more deeply and add suppress option, if won't failed cases
 	|	constant
 	|	"true"
 	|	"false"
@@ -1407,7 +1417,7 @@ primaryExpression
 		// look for int.class and int[].class
 	|	builtInType
 		( lbt:LBRACK^ {#lbt.setType(ARRAY_DECLARATOR);} RBRACK )*
-		DOT^ "class"
+		(DOT^ "class")?
 	;
 
 /** object instantiation.
@@ -1570,6 +1580,7 @@ RBRACK			:	']'		;
 LCURLY			:	'{'		;
 RCURLY			:	'}'		;
 COLON			:	':'		;
+DOUBLE_COLON    :   "::"    ;
 COMMA			:	','		;
 //DOT			:	'.'		;
 ASSIGN			:	'='		;

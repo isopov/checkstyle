@@ -18,11 +18,11 @@
 ////////////////////////////////////////////////////////////////////////////////
 package com.puppycrawl.tools.checkstyle.api;
 
-import com.google.common.collect.ImmutableMap;
-
-import com.puppycrawl.tools.checkstyle.grammars.GeneratedJavaTokenTypes;
 import java.lang.reflect.Field;
 import java.util.ResourceBundle;
+
+import com.google.common.collect.ImmutableMap;
+import com.puppycrawl.tools.checkstyle.grammars.GeneratedJavaTokenTypes;
 
 /**
  * Contains the constants for all the tokens contained in the Abstract
@@ -732,6 +732,11 @@ public final class TokenTypes
      * @see FullIdent
      **/
     public static final int METHOD_CALL = GeneratedJavaTokenTypes.METHOD_CALL;
+
+	/**
+	 * blablabla
+	 */
+	public static final int METHOD_REF = GeneratedJavaTokenTypes.METHOD_REF;
     /**
      * An expression.  Operators with lower precedence appear at a
      * higher level in the tree than operators with higher precedence.
@@ -1485,6 +1490,11 @@ public final class TokenTypes
      * @see #CASE_GROUP
      **/
     public static final int COLON = GeneratedJavaTokenTypes.COLON;
+
+	/**
+	 * The <code>::</code> (double colon) operator. It is part of Java 8 syntax that is used for method reference.
+	 */
+	public static final int DOUBLE_COLON = GeneratedJavaTokenTypes.DOUBLE_COLON;
     /**
      * The <code>if</code> keyword.
      *
