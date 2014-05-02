@@ -18,11 +18,11 @@
 ////////////////////////////////////////////////////////////////////////////////
 package com.puppycrawl.tools.checkstyle.api;
 
-import com.google.common.collect.ImmutableMap;
-
-import com.puppycrawl.tools.checkstyle.grammars.GeneratedJavaTokenTypes;
 import java.lang.reflect.Field;
 import java.util.ResourceBundle;
+
+import com.google.common.collect.ImmutableMap;
+import com.puppycrawl.tools.checkstyle.grammars.GeneratedJavaTokenTypes;
 
 /**
  * Contains the constants for all the tokens contained in the Abstract
@@ -91,6 +91,7 @@ public final class TokenTypes
      * @see #ANNOTATION
      **/
     public static final int MODIFIERS = GeneratedJavaTokenTypes.MODIFIERS;
+
     /**
      * An object block.  These are children of class, interface, enum,
      * annotation and enum constant declarations.
